@@ -184,12 +184,11 @@ node_t *rbtree_find(const rbtree *t, const key_t key) {
 
 node_t *rbtree_min(const rbtree *t) {
   node_t *x;
-
   if (t->root == t->nil)
     return NULL;
    x = t->root;
    while (x->left != t->nil) {
-    x = x->left;
+     x = x->left;
    }
    return x;
 }
@@ -310,9 +309,9 @@ int rbtree_erase(rbtree *t, node_t *p) {
       x->parent = y;
     }
     else {                                   // 삭제된 p의 위치에 들어올 successor가 멀리 떨어져 있음
-      rbtree_transplant(t, y, y->right);     // 일단 올라오기 전에 successor를 successor의 right로 대체
+      rbtree_transplant(t, y, y->right);     // 올라오기 전에 successor의 위치를 successor의 right로 대체
       y->right = p->right;                   // 삭제될 p의 right들을 y의 right에 붙여줌
-      y->right->parent = y;                 // 붙인 p의 자녀들의 parent를 y로 수정
+      y->right->parent = y;                 //  y의 자녀들(p에서 옮겨진 자녀들)의 parent를 y로 수정
       }
 
     rbtree_transplant(t, p, y);            // p 를 successor y로 대체
