@@ -327,19 +327,18 @@ int rbtree_erase(rbtree *t, node_t *p) {
 }
 
 
-void inorderTraversal(node_t* x, int* arr, int* idx, const size_t n){
-  if (x == NULL)
-    return;
-
-  if (x->key != 0) {
-    inorderTraversal(x->left, arr, idx, n);
-    arr[*idx] = x->key;
-    if (*idx == n-1) {
+void inorderTraversal(const rbtree *t, node_t* x, int* arr, int* idx, const size_t n){
+  if (x == t->nil)
       return;
-      }
+
+  // if (x->key !=0){
+    inorderTraversal(t, x->left, arr, idx, n);
+    arr[*idx] = x->key;
+    if (*idx == n-1)
+      return;
     (*idx)++;
-    inorderTraversal(x->right, arr, idx, n);
-    }
+    inorderTraversal(t, x->right, arr, idx, n);
+  // }
 }
 
 int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
@@ -347,7 +346,7 @@ int rbtree_to_array(const rbtree *t, key_t *arr, const size_t n) {
 
   // array에 key 순서대로 삽입하기 위해 중위 순회를 진행 
 
-  inorderTraversal(t->root, arr, &idx, n);
+  inorderTraversal(t, t->root, arr, &idx, n);
   return *arr;
 
 }
